@@ -27,7 +27,7 @@
 .jt-tag {
   background: #DEE7F8;
   border: 1px solid #949494;
-  padding: 0px 0px 20px 2px;
+  padding: 0 0 20px 2px;
   cursor: default;
   
   display: inline-block;
@@ -68,7 +68,7 @@
 /* New tag input & Edit tag input */
 .jt-tag-new, .jt-tag-edit {
   border: none;
-  outline: 0px;
+  outline: 0;
   min-width: 50px; /* Will keep autogrow from lowering width more than 60 */
 }
 
@@ -83,5 +83,5 @@
   position: absolute;
   left: -10000px;
   width: 1px;
-  border: 0px;
+  border: 0;
 }

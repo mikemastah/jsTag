@@ -1,6 +1,6 @@
 var jsTag = angular.module('jsTag', []);
 
-// Defaults for jsTag (can be overriden as shown in example)
+// Defaults for jsTag (can be overridden as shown in example)
 jsTag.constant('jsTagDefaults', {
   'edit': true,
   'defaultTags': [],

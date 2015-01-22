@@ -33,7 +33,7 @@ jsTag.factory('JSTagsCollection', ['JSTag', '$filter', function(JSTag, $filter) 
     angular.forEach(this._onAddListenerList, function (callback) {
       callback(newTag);
     });
-  }
+  };
   
   // Removes the received tag
   JSTagsCollection.prototype.removeTag = function(tagIndex) {
@@ -42,7 +42,7 @@ jsTag.factory('JSTagsCollection', ['JSTag', '$filter', function(JSTag, $filter) 
     angular.forEach(this._onRemoveListenerList, function (callback) {
       callback(tag);
     });
-  }
+  };
 
   JSTagsCollection.prototype.onAdd = function onAdd(callback) {
     this._onAddListenerList.push(callback);
@@ -55,7 +55,7 @@ jsTag.factory('JSTagsCollection', ['JSTag', '$filter', function(JSTag, $filter) 
   // Returns the number of tags in collection
   JSTagsCollection.prototype.getNumberOfTags = function() {
     return getNumberOfProperties(this.tags);
-  }
+  };
   
   // Returns the previous tag before the tag received as input
   // Returns same tag if it's the first
@@ -67,7 +67,7 @@ jsTag.factory('JSTagsCollection', ['JSTag', '$filter', function(JSTag, $filter) 
     } else {
       return getPreviousProperty(this.tags, tag.id);
     }
-  }
+  };
   
   // Returns the next tag after  the tag received as input
   // Returns same tag if it's the last
@@ -79,7 +79,7 @@ jsTag.factory('JSTagsCollection', ['JSTag', '$filter', function(JSTag, $filter) 
     } else {
       return getNextProperty(this.tags, tag.id);
     }
-  }
+  };
   
   // *** Active methods *** //
   
@@ -155,7 +155,7 @@ jsTag.factory('JSTagsCollection', ['JSTag', '$filter', function(JSTag, $filter) 
     }
     
     this._editedTag = null;
-  }
+  };
   
   return JSTagsCollection;
 }]);
