@@ -69,7 +69,7 @@ jsTag.factory('JSTagsCollection', ['JSTag', '$filter', function(JSTag, $filter) 
     }
   };
   
-  // Returns the next tag after  the tag received as input
+  // Returns the next tag after the tag received as input
   // Returns same tag if it's the last
   JSTagsCollection.prototype.getNextTag = function(tag) {
     var lastTag = getLastProperty(this.tags);
@@ -103,12 +103,12 @@ jsTag.factory('JSTagsCollection', ['JSTag', '$filter', function(JSTag, $filter) 
     }
   };
   
-  // Unsets an active tag
+  // Un-sets an active tag
   JSTagsCollection.prototype.unsetActiveTag = function(tag) {
     var removedTag = this._activeTags.splice(this._activeTags.indexOf(tag), 1);
   };
   
-  // Unsets all active tag
+  // Un-sets all active tag
   JSTagsCollection.prototype.unsetActiveTags = function() {
     this._activeTags = [];
   };
@@ -145,7 +145,7 @@ jsTag.factory('JSTagsCollection', ['JSTag', '$filter', function(JSTag, $filter) 
     this._editedTag = tag;
   };
   
-  // Unsets the 'edit' flag on a tag by it's given index
+  // Un-sets the 'edit' flag on a tag by it's given index
   JSTagsCollection.prototype.unsetEditedTag = function() {
     // Kill empty tags!
     if (this._editedTag !== undefined &&
@@ -181,7 +181,7 @@ function getLastProperty(obj) {
   return obj[keys[keys.length - 1]];
 }
 
-// Get the next property of an object whos' properties keys are numbers, including inherited properties
+// Get the next property of an object whose properties keys are numbers, including inherited properties
 function getNextProperty(obj, propertyId) {
   var keys = Object.keys(obj);
   var indexOfProperty = keys.indexOf(propertyId.toString());
@@ -189,7 +189,7 @@ function getNextProperty(obj, propertyId) {
   return obj[keyOfNextProperty];
 }
 
-// Get the previous property of an object whos' properties keys are numbers, including inherited properties
+// Get the previous property of an object whose properties keys are numbers, including inherited properties
 function getPreviousProperty(obj, propertyId) {
   var keys = Object.keys(obj);
   var indexOfProperty = keys.indexOf(propertyId.toString());

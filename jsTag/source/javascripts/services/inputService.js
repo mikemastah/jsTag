@@ -3,6 +3,10 @@ var jsTag = angular.module('jsTag');
 // This service handles everything related to input (when to focus input, key pressing, breakcodeHit).
 jsTag.factory('InputService', ['$filter', function($filter) {
 
+  var KEY_TAB = 9;        // Tab key
+  var KEY_BACKSPACE = 8;  // Backspace
+  var KEY_LEFT_ARR = 37;  // Left Arrow
+
   // Constructor
   function InputService(options) {
     this.input = "";
@@ -42,11 +46,11 @@ jsTag.factory('InputService', ['$filter', function($filter) {
 
     } else {
       switch (keycode) {
-        case 9:	// Tab
+        case KEY_TAB:
 
           break;
-        case 37: // Left arrow
-        case 8: // Backspace
+        case KEY_LEFT_ARR:
+        case KEY_BACKSPACE:
           if (valueIsEmpty) {
             // TODO: Call removing tag event instead of calling a method, easier to customize
             tagsCollection.setLastTagActive();
@@ -92,7 +96,7 @@ jsTag.factory('InputService', ['$filter', function($filter) {
         originalValue = originalValue[options.tagDisplayKey || Object.keys(originalValue)[0]];
       }
 
-      // Split value by spliter (usually ,)
+      // Split value by splitter (usually ,)
       var values = originalValue.split(options.splitter);
 
       // Add tags to collection

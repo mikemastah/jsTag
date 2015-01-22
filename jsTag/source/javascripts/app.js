@@ -6,7 +6,7 @@ jsTag.constant('jsTagDefaults', {
   'defaultTags': [],
   'breakCodes': [
     13, // Return
-    44 // Comma
+    44  // Comma
   ],
   'splitter': ',',
   'texts': {

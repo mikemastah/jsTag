@@ -22,8 +22,7 @@ jsTag.filter('toArray', function() {
   return function(input) {
     var objectsAsArray = [];
     for (var key in input) {
-      var value = input[key];
-      objectsAsArray.push(value);
+      objectsAsArray.push(input[key]);
     }
   
     return objectsAsArray;

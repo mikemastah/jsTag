@@ -77,7 +77,8 @@ jsTag.directive('autoGrow', ['$timeout', function($timeout) {
     link: function(scope, element, attr){
       var paddingLeft = element.css('paddingLeft'),
           paddingRight = element.css('paddingRight');
-   
+
+      // TODO: Remove this?  Seems unused.
       var minWidth = 60;
    
       var $shadow = angular.element('<span></span>').css({
@@ -106,7 +107,7 @@ jsTag.directive('autoGrow', ['$timeout', function($timeout) {
         
         var newWidth = ($shadow[0].offsetWidth + 10) + "px";
         element.css('width', newWidth);
-      }
+      };
    
       var ngModel = element.attr('ng-model');
       if (ngModel) {

@@ -2,6 +2,12 @@ var jsTag = angular.module('jsTag');
 
 // TagsCollection Model
 jsTag.factory('TagsInputService', ['JSTag', 'JSTagsCollection', function(JSTag, JSTagsCollection) {
+
+  var KEY_ENTER = 13;     // Enter key
+  var KEY_BACKSPACE = 8;  // Backspace
+  var KEY_LEFT_ARR = 37;  // Left Arrow
+  var KEY_RIGHT_ARR = 39; // Left Arrow
+
   // Constructor
   function TagsHandler(options) {
     this.options = options;
@@ -43,7 +49,7 @@ jsTag.factory('TagsInputService', ['JSTag', 'JSTagsCollection', function(JSTag, 
       var e = options.$event;
 
       // Mimics blur of the active tag though the focus is on the input.
-      // This will cause expected features like unseting active tag
+      // This will cause expected features like un-setting active tag
       var blurActiveTag = function() {
         // Expose the option not to blur the active tag
         if (this.shouldBlurActiveTag) {
@@ -52,7 +58,7 @@ jsTag.factory('TagsInputService', ['JSTag', 'JSTagsCollection', function(JSTag, 
       };
 
       switch (e.which) {
-        case 13: // Return
+        case KEY_ENTER:
           var editAllowed = this.options.edit;
           if (editAllowed) {
             blurActiveTag.apply(this);
@@ -60,18 +66,18 @@ jsTag.factory('TagsInputService', ['JSTag', 'JSTagsCollection', function(JSTag, 
           }
 
           break;
-        case 8: // Backspace
+        case KEY_BACKSPACE:
           this.tagsCollection.removeTag(activeTag.id);
           inputService.isWaitingForInput = true;
 
           break;
-        case 37: // Left arrow
+        case KEY_LEFT_ARR:
           blurActiveTag.apply(this);
           var previousTag = this.tagsCollection.getPreviousTag(activeTag);
           this.tagsCollection.setActiveTag(previousTag);
 
           break;
-        case 39: // Right arrow
+        case KEY_RIGHT_ARR:
           blurActiveTag.apply(this);
 
           var nextTag = this.tagsCollection.getNextTag(activeTag);
