@@ -24,12 +24,15 @@ jsTag.factory('JSTagsCollection', ['JSTag', '$filter', function(JSTag, $filter) 
   // *** Object manipulation methods *** //
   
   // Adds a tag with received value
-  JSTagsCollection.prototype.addTag = function(value) {
-    var tagIndex = this.tagsCounter;
-    this.tagsCounter++;
+  JSTagsCollection.prototype.addTag = function(value, id) {
+      var tagIndex = id || this.tagsCounter;
+
+      var newTag = new JSTag(value, tagIndex);
+      this.tags[tagIndex] = newTag;
+
+      this.tagsCounter++;
   
-    var newTag = new JSTag(value, tagIndex);
-    this.tags[tagIndex] = newTag;
+
     angular.forEach(this._onAddListenerList, function (callback) {
       callback(newTag);
     });
@@ -166,19 +169,29 @@ jsTag.factory('JSTagsCollection', ['JSTag', '$filter', function(JSTag, $filter) 
 
 // Gets the number of properties, including inherited
 function getNumberOfProperties(obj) {
-  return Object.keys(obj).length;
+    var size = 0, key;
+    for (key in obj) {
+        if (obj.hasOwnProperty(key)) size++;
+    }
+    return size;
 }
 
 // Get the first property of an object, including inherited properties
 function getFirstProperty(obj) {
-  var keys = Object.keys(obj);
-  return obj[keys[0]];
+    var key;
+    for (key in obj) {
+        if (obj.hasOwnProperty(key)) return obj[key];
+    }
+    return null;
 }
 
 // Get the last property of an object, including inherited properties
 function getLastProperty(obj) {
-  var keys = Object.keys(obj);
-  return obj[keys[keys.length - 1]];
+    var key, last = null;
+    for (key in obj) {
+        if (obj.hasOwnProperty(key)) last = obj[key];
+    }
+    return last;
 }
 
 // Get the next property of an object whose properties keys are numbers, including inherited properties

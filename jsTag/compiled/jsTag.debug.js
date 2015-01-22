@@ -2,7 +2,7 @@
 * jsTag JavaScript Library - Editing tags based on angularJS 
 * Git: https://github.com/eranhirs/jsTag/tree/master
 * License: MIT (http://www.opensource.org/licenses/mit-license.php)
-* Compiled At: 01/22/2015 10:32
+* Compiled At: 01/22/2015 12:31
 **************************************************/
 'use strict';
 var jsTag = angular.module('jsTag', []);
@@ -88,12 +88,15 @@ jsTag.factory('JSTagsCollection', ['JSTag', '$filter', function(JSTag, $filter) 
   // *** Object manipulation methods *** //
   
   // Adds a tag with received value
-  JSTagsCollection.prototype.addTag = function(value) {
-    var tagIndex = this.tagsCounter;
-    this.tagsCounter++;
+  JSTagsCollection.prototype.addTag = function(value, id) {
+      var tagIndex = id || this.tagsCounter;
+
+      var newTag = new JSTag(value, tagIndex);
+      this.tags[tagIndex] = newTag;
+
+      this.tagsCounter++;
   
-    var newTag = new JSTag(value, tagIndex);
-    this.tags[tagIndex] = newTag;
+
     angular.forEach(this._onAddListenerList, function (callback) {
       callback(newTag);
     });
@@ -230,19 +233,29 @@ jsTag.factory('JSTagsCollection', ['JSTag', '$filter', function(JSTag, $filter) 
 
 // Gets the number of properties, including inherited
 function getNumberOfProperties(obj) {
-  return Object.keys(obj).length;
+    var size = 0, key;
+    for (key in obj) {
+        if (obj.hasOwnProperty(key)) size++;
+    }
+    return size;
 }
 
 // Get the first property of an object, including inherited properties
 function getFirstProperty(obj) {
-  var keys = Object.keys(obj);
-  return obj[keys[0]];
+    var key;
+    for (key in obj) {
+        if (obj.hasOwnProperty(key)) return obj[key];
+    }
+    return null;
 }
 
 // Get the last property of an object, including inherited properties
 function getLastProperty(obj) {
-  var keys = Object.keys(obj);
-  return obj[keys[keys.length - 1]];
+    var key, last = null;
+    for (key in obj) {
+        if (obj.hasOwnProperty(key)) last = obj[key];
+    }
+    return last;
 }
 
 // Get the next property of an object whose properties keys are numbers, including inherited properties
@@ -354,19 +367,26 @@ jsTag.factory('InputService', ['$filter', function($filter) {
       var originalValue = this.resetInput();
 
       // Input is an object when using typeahead (the key is chosen by the user)
+        var id;
+        var value;
       if (originalValue instanceof Object)
       {
-        originalValue = originalValue[options.tagDisplayKey || Object.keys(originalValue)[0]];
+          value = originalValue[options.tagDisplayKey || Object.keys(originalValue)[0]];
+          if (typeof options.tagIdKey == "string") {
+              id = originalValue[options.tagIdKey];
+          }
+      } else {
+          value = originalValue;
       }
 
       // Split value by splitter (usually ,)
-      var values = originalValue.split(options.splitter);
+      var values = value.split(options.splitter);
 
       // Add tags to collection
       for (var key in values) {
         if ( ! values.hasOwnProperty(key)) continue;  // for IE 8
-        var value = values[key];
-        tagsCollection.addTag(value);
+        var val = values[key];
+        tagsCollection.addTag(val, id);
       }
     }
   };
@@ -512,7 +532,6 @@ jsTag.controller('JSTagMainCtrl', ['$attrs', '$scope', 'InputService', 'TagsInpu
   try {
     userOptions = $scope.$eval($attrs.jsTagOptions);
   } catch(e) {
-    console.log("jsTag Error: Invalid user options, using defaults only");
   }
   
   // Copy so we don't override original values

@@ -91,19 +91,26 @@ jsTag.factory('InputService', ['$filter', function($filter) {
       var originalValue = this.resetInput();
 
       // Input is an object when using typeahead (the key is chosen by the user)
+        var id;
+        var value;
       if (originalValue instanceof Object)
       {
-        originalValue = originalValue[options.tagDisplayKey || Object.keys(originalValue)[0]];
+          value = originalValue[options.tagDisplayKey || Object.keys(originalValue)[0]];
+          if (typeof options.tagIdKey == "string") {
+              id = originalValue[options.tagIdKey];
+          }
+      } else {
+          value = originalValue;
       }
 
       // Split value by splitter (usually ,)
-      var values = originalValue.split(options.splitter);
+      var values = value.split(options.splitter);
 
       // Add tags to collection
       for (var key in values) {
         if ( ! values.hasOwnProperty(key)) continue;  // for IE 8
-        var value = values[key];
-        tagsCollection.addTag(value);
+        var val = values[key];
+        tagsCollection.addTag(val, id);
       }
     }
   };
