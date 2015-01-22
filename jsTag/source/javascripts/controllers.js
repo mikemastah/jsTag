@@ -6,7 +6,7 @@ jsTag.controller('JSTagMainCtrl', ['$attrs', '$scope', 'InputService', 'TagsInpu
   try {
     userOptions = $scope.$eval($attrs.jsTagOptions);
   } catch(e) {
-    console.log("jsTag Error: Invalid user options, using defaults only");
+      console.log("jsTag Error: Invalid user options, using defaults only");
   }
   
   // Copy so we don't override original values

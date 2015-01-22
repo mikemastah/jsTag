@@ -2,7 +2,7 @@
 * jsTag JavaScript Library - Editing tags based on angularJS 
 * Git: https://github.com/eranhirs/jsTag/tree/master
 * License: MIT (http://www.opensource.org/licenses/mit-license.php)
-* Compiled At: 01/22/2015 12:31
+* Compiled At: 01/22/2015 13:14
 **************************************************/
 'use strict';
 var jsTag = angular.module('jsTag', []);
@@ -12,14 +12,17 @@ jsTag.constant('jsTagDefaults', {
   'edit': true,
   'defaultTags': [],
   'breakCodes': [
-    13, // Return
-    44  // Comma
+    13,  // Return
+    188, // Comma
+    27   // Escape
   ],
   'splitter': ',',
   'texts': {
     'inputPlaceHolder': "Input text",
     'removeSymbol': String.fromCharCode(215)
-  }
+  },
+    'tagDisplayKey': 'value',
+    'tagIdKey': false
 });
 var jsTag = angular.module('jsTag');
 
@@ -70,7 +73,8 @@ jsTag.factory('JSTagsCollection', ['JSTag', '$filter', function(JSTag, $filter) 
   // Constructor
   function JSTagsCollection(defaultTags) {
     this.tags = {};
-    this.tagsCounter = 0;
+    this.tagsCounter = 0;       // Not actually a counter of the amount of tags in the collection but instead used to
+                                // insert tags at "unique" indexes when no id is given.
     for (var defaultTagKey in defaultTags) {
       var defaultTagValue = defaultTags[defaultTagKey];
       this.addTag(defaultTagValue);
@@ -87,14 +91,14 @@ jsTag.factory('JSTagsCollection', ['JSTag', '$filter', function(JSTag, $filter) 
   
   // *** Object manipulation methods *** //
   
-  // Adds a tag with received value
+  // Adds a tag with received value and optional id
   JSTagsCollection.prototype.addTag = function(value, id) {
       var tagIndex = id || this.tagsCounter;
 
       var newTag = new JSTag(value, tagIndex);
       this.tags[tagIndex] = newTag;
 
-      this.tagsCounter++;
+      this.tagsCounter++; // TODO: only increment this when we actually use it for tagIndex
   
 
     angular.forEach(this._onAddListenerList, function (callback) {
@@ -532,6 +536,7 @@ jsTag.controller('JSTagMainCtrl', ['$attrs', '$scope', 'InputService', 'TagsInpu
   try {
     userOptions = $scope.$eval($attrs.jsTagOptions);
   } catch(e) {
+      console.log("jsTag Error: Invalid user options, using defaults only");
   }
   
   // Copy so we don't override original values
@@ -567,6 +572,7 @@ jsTag.controller('JSTagMainCtrl', ['$attrs', '$scope', 'InputService', 'TagsInpu
 var jsTag = angular.module('jsTag');
 
 // TODO: Maybe add A to 'restrict: E' for support in IE 8?
+// This is already done?
 jsTag.directive('jsTag', ['$templateCache', function($templateCache) {
   return {
     restrict: 'E',

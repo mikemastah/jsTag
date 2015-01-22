@@ -1,6 +1,7 @@
 var jsTag = angular.module('jsTag');
 
 // TODO: Maybe add A to 'restrict: E' for support in IE 8?
+// This is already done?
 jsTag.directive('jsTag', ['$templateCache', function($templateCache) {
   return {
     restrict: 'E',

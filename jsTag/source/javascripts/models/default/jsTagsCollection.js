@@ -6,7 +6,8 @@ jsTag.factory('JSTagsCollection', ['JSTag', '$filter', function(JSTag, $filter) 
   // Constructor
   function JSTagsCollection(defaultTags) {
     this.tags = {};
-    this.tagsCounter = 0;
+    this.tagsCounter = 0;       // Not actually a counter of the amount of tags in the collection but instead used to
+                                // insert tags at "unique" indexes when no id is given.
     for (var defaultTagKey in defaultTags) {
       var defaultTagValue = defaultTags[defaultTagKey];
       this.addTag(defaultTagValue);
@@ -23,14 +24,14 @@ jsTag.factory('JSTagsCollection', ['JSTag', '$filter', function(JSTag, $filter) 
   
   // *** Object manipulation methods *** //
   
-  // Adds a tag with received value
+  // Adds a tag with received value and optional id
   JSTagsCollection.prototype.addTag = function(value, id) {
       var tagIndex = id || this.tagsCounter;
 
       var newTag = new JSTag(value, tagIndex);
       this.tags[tagIndex] = newTag;
 
-      this.tagsCounter++;
+      this.tagsCounter++; // TODO: only increment this when we actually use it for tagIndex
   
 
     angular.forEach(this._onAddListenerList, function (callback) {
